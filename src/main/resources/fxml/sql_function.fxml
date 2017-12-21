@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.easydata.sql.reversing.vertica.controllers.SqlFunctionController">
+   <children>
+		<Label styleClass="form-title" text="%fxml.form.sql-function.title">
+         <VBox.margin>
+            <Insets bottom="20.0" left="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints minWidth="150.0" />
+          <ColumnConstraints hgrow="SOMETIMES" prefWidth="450.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+      		<Label text="%fxml.form.drop" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Label>
+      		<CheckBox fx:id="checkBoxDrop" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      		<Label text="%fxml.form.generation">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Label>
+      		<CheckBox fx:id="checkBoxGeneration" mnemonicParsing="false" GridPane.columnIndex="1" />
+      		<Hyperlink fx:id="linkListObject" text="%fxml.form.list-object" underline="true" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Hyperlink>
+      		<Label text="%fxml.form.filter" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Label>
+      		<TextArea fx:id="textAreaFilter" prefHeight="90.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextArea>
+      		<Label text="%fxml.form.file-mask" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Label>
+      		<TextField fx:id="textFieldFileMask" prefHeight="25.0" prefWidth="407.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+   </children>
+</VBox>
