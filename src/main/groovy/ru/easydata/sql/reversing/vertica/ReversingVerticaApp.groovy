@@ -15,13 +15,19 @@ import ru.easydata.sql.reversing.vertica.controllers.Dialog
 import ru.easydata.sql.reversing.vertica.interfaces.Reversing
 import ru.easydata.sql.reversing.vertica.services.ReversingImpl
 
+import java.awt.AlphaComposite
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.SplashScreen
+
 /**
  * @author Сергей Семыкин
  * @since 09.11.2017
  */
 @SpringBootApplication
 class ReversingVerticaApp extends Application {
-
+	private final static SplashScreen splash = SplashScreen.getSplashScreen()
 	private static String[] savedArgs
 	private static ConfigurableApplicationContext springContext
 	private static Parent rootNode
@@ -86,9 +92,25 @@ class ReversingVerticaApp extends Application {
 		})
 
 		reversing.newFile()
+
+		if (splash != null && splash.isVisible()) {
+			splash.close()
+		}
 	}
 
 	static void main(String[] args) {
+		/*if (splash != null) {
+			Graphics2D g = splash.createGraphics()
+			if (g != null) {
+				g.setComposite(AlphaComposite.Clear)
+				g.fillRect(120,140,200,40)
+				g.setPaintMode()
+				g.setColor(Color.WHITE)
+				g.setFont(new Font("TimesRoman", 0, 18))
+				g.drawString("0.0.3-SNAPSHOT", 428, 90)
+				splash.update()
+			}
+		}*/
 		savedArgs = args
 		launch(ReversingVerticaApp.class, args)
 	}

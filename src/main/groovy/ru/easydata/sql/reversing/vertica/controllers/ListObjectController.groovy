@@ -3,7 +3,6 @@ package ru.easydata.sql.reversing.vertica.controllers
 import getl.utils.Config
 import getl.vertica.ReverseEngineering
 import javafx.collections.FXCollections
-import javafx.collections.ObservableArray
 import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
