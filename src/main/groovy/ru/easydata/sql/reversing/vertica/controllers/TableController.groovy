@@ -81,4 +81,9 @@ class TableController extends GenerationDropFileMaskObject implements TableForm 
 	void setProjectionKsafe(Integer projectionKsafe) {
 		this.textFieldKsafe.setText(projectionKsafe as String)
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.TABLES)
+	}
 }

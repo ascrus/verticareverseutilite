@@ -21,9 +21,13 @@ class GrantsController extends GenerationObject implements GrantsForm {
 			return
 		}
 
-		String grants = json.create?.grants
 		String filter = json.vars?.filter?.grants
 
-		this.generationValue(grants, filter)
+		this.generationValue(json.create?.grants, filter)
+	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.GRANTS)
 	}
 }

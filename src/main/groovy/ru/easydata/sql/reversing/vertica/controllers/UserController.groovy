@@ -49,4 +49,9 @@ class UserController extends GenerationDropFileMaskObject implements UserForm {
 	void setEmpty(boolean isEmpty) {
 		this.checkBoxEmpty.setSelected(isEmpty)
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.USERS)
+	}
 }

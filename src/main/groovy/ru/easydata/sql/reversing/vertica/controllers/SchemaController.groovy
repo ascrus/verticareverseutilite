@@ -27,4 +27,9 @@ class SchemaController extends GenerationDropFileMaskObject implements SchemaFor
 		this.fileMask = json.filename?.schemas
 		this.drop = json.drop?.schemas ?: false
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.SCHEMA)
+	}
 }

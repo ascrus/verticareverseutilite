@@ -28,4 +28,9 @@ class RoleController extends GenerationDropFileMaskObject implements RoleForm {
 		this.fileMask = json.filename?.roles
 		this.drop = json.drop?.roles ?: false
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.ROLES)
+	}
 }

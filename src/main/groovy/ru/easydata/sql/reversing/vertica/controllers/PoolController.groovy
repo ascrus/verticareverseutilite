@@ -57,8 +57,8 @@ class PoolController extends GenerationDropFileMaskObject implements PoolForm {
 		this.checkBoxDrop.setSelected(isEmpty)
 	}
 
+	@Override
 	void actionListObject() {
-		this.listObjectController.setTitle('POOL')
-		this.showListObject()
+		this.showListObject(ListObjectController.SECTION.POOLS)
 	}
 }

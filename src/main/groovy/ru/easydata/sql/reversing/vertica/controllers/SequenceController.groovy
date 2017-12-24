@@ -49,4 +49,9 @@ class SequenceController extends GenerationDropFileMaskObject implements Sequenc
 	void setSequencesCurrent(boolean isSequencesCurrent) {
 		this.checkBoxSequencesCurrent.setSelected(isSequencesCurrent)
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.SEQUENCE)
+	}
 }

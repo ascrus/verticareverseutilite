@@ -28,4 +28,9 @@ class ViewController extends GenerationDropFileMaskObject implements ViewForm {
 		this.fileMask = json.filename?.views
 		this.drop = json.drop?.views ?: false
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.VIEWS)
+	}
 }

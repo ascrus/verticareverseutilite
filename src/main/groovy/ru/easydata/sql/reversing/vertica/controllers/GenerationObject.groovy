@@ -9,6 +9,8 @@ import javafx.scene.control.TextArea
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import ru.easydata.sql.reversing.vertica.configurations.FXMLViewLoader
 
 
@@ -17,6 +19,9 @@ import ru.easydata.sql.reversing.vertica.configurations.FXMLViewLoader
  * @since 14.11.2017
  */
 abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.interfaces.forms.GenerationObject {
+	@Autowired
+	private MessageSource messageSource
+
 	@Autowired
 	private FXMLViewLoader fxmlViewLoader
 
@@ -32,7 +37,7 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 	@FXML
 	protected TextArea textAreaFilter
 
-	private Stage stageListObject
+	private static Stage stageListObject
 
 	void clear() {
 		this.checkBoxGeneration.setSelected(false)
@@ -59,28 +64,33 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 		this.textAreaFilter.setText(filter)
 	}
 
-	protected void showListObject() {
+	abstract void actionListObject()
+
+	protected void showListObject(ListObjectController.SECTION section) {
 		Parent root = this.fxmlViewLoader.get('list_object')
 
-		if (this.stageListObject == null) {
-			this.stageListObject = new Stage()
-			this.stageListObject.setScene(new Scene(root))
-			this.stageListObject.setTitle('test')
-			this.stageListObject.initModality(Modality.WINDOW_MODAL)
-			this.stageListObject.initOwner(this.checkBoxGeneration.getScene().getWindow())
+		if (stageListObject == null) {
+			stageListObject = new Stage()
+			stageListObject.setScene(new Scene(root))
+			stageListObject.setTitle(this.messageSource.getMessage('fxml.form.list-object', null, LocaleContextHolder.getLocale()))
+			stageListObject.initModality(Modality.WINDOW_MODAL)
+			stageListObject.initOwner(this.checkBoxGeneration.getScene().getWindow())
 
 			stageListObject.setOnCloseRequest({e ->
-				this.filter = this.listObjectController.getSQL()
+				if (this.listObjectController.getSQL() != null) {
+					this.filter = this.listObjectController.getSQL()
+				}
 			})
 			stageListObject.setOnShown({e ->
 				this.listObjectController.setSQL(this.filter)
-				this.listObjectController.table().getColumns().clear()
 			})
 		} else {
-			this.stageListObject.getScene().setRoot(root)
+			stageListObject.getScene().setRoot(root)
 		}
 
-		this.stageListObject.show()
+		this.listObjectController.setSection(section)
+
+		stageListObject.show()
 	}
 
 	protected void generationValue(def value, String filter) {

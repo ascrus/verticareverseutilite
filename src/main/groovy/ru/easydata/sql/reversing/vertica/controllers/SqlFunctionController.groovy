@@ -28,4 +28,9 @@ class SqlFunctionController extends GenerationDropFileMaskObject implements SqlF
 		this.fileMask = json.filename?.sql_functions
 		this.drop = json.drop?.sql_functions ?: false
 	}
+
+	@Override
+	void actionListObject() {
+		this.showListObject(ListObjectController.SECTION.SQL_FUNCTION)
+	}
 }
