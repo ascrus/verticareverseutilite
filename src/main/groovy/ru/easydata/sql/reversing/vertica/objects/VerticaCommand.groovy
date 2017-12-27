@@ -12,10 +12,17 @@ class VerticaCommand implements Command {
 	private File projectFile
 	private File scriptDirectory
 	private File directory = new File('bin')
+	private Boolean isClear = false
 
 	VerticaCommand(File projectFile, File scriptDirectory) {
 		this.projectFile = projectFile
 		this.scriptDirectory = scriptDirectory
+	}
+
+	VerticaCommand(File projectFile, File scriptDirectory, boolean isClear) {
+		this.projectFile = projectFile
+		this.scriptDirectory = scriptDirectory
+		this.isClear = isClear
 	}
 
 	@Override
@@ -27,6 +34,10 @@ class VerticaCommand implements Command {
 		command.add('getl.vertica.ReverseEngineering')
 		command.add('config.filename=' + projectFile.getAbsolutePath())
 		command.add('script_path=' + scriptDirectory.getAbsolutePath())
+
+		if (this.isClear) {
+			command.add('clear=true')
+		}
 
 		return command
 	}

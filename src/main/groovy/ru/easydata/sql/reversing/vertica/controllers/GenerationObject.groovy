@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import ru.easydata.sql.reversing.vertica.configurations.FXMLViewLoader
+import ru.easydata.sql.reversing.vertica.configurations.UserProperties
 
 
 /**
@@ -28,6 +29,9 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 	@Autowired
 	protected ListObjectController listObjectController
 
+	@Autowired
+	protected UserProperties userProperties
+
 	@FXML
 	protected CheckBox checkBoxGeneration
 
@@ -37,7 +41,7 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 	@FXML
 	protected TextArea textAreaFilter
 
-	private static Stage stageListObject
+	protected static Stage stageListObject
 
 	void clear() {
 		this.checkBoxGeneration.setSelected(false)
@@ -75,22 +79,25 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 			stageListObject.setTitle(this.messageSource.getMessage('fxml.form.list-object', null, LocaleContextHolder.getLocale()))
 			stageListObject.initModality(Modality.WINDOW_MODAL)
 			stageListObject.initOwner(this.checkBoxGeneration.getScene().getWindow())
-
-			stageListObject.setOnCloseRequest({e ->
-				if (this.listObjectController.getSQL() != null) {
-					this.filter = this.listObjectController.getSQL()
-				}
-			})
-			stageListObject.setOnShown({e ->
-				this.listObjectController.setSQL(this.filter)
-			})
 		} else {
 			stageListObject.getScene().setRoot(root)
 		}
 
+		stageListObject.setOnCloseRequest({e ->
+			if (this.listObjectController.getSQL() != null) {
+				this.filter = this.listObjectController.getSQL()
+			}
+			this.userProperties.setWindowPosition('list-object', stageListObject)
+		})
+		stageListObject.setOnShown({e ->
+			this.listObjectController.setSQL(this.filter)
+		})
+
 		this.listObjectController.setSection(section)
 
 		stageListObject.show()
+
+		this.userProperties.loadWindowPosition('list-object', stageListObject)
 	}
 
 	protected void generationValue(def value, String filter) {

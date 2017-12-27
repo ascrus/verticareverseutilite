@@ -84,7 +84,16 @@
                   <TextField fx:id="textFieldPort" layoutY="4.0" prefHeight="25.0" />
                </children>
             </AnchorPane>
-            <Button fx:id="butTestConnection" mnemonicParsing="false" onAction="#butAction" text="%fxml.form.connection.test-connection" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <Button fx:id="butTestConnection" mnemonicParsing="false" onAction="#butAction" text="%fxml.form.connection.test-connection" />
+                  <ProgressBar fx:id="progressBarWaitConnect" prefHeight="18.0" prefWidth="73.0" visible="false">
+                     <HBox.margin>
+                        <Insets left="10.0" top="4.0" />
+                     </HBox.margin>
+                  </ProgressBar>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>

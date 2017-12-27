@@ -1,5 +1,6 @@
 package ru.easydata.sql.reversing.vertica.configurations
 
+import javafx.stage.Stage
 import org.apache.commons.io.FileUtils
 
 /**
@@ -33,6 +34,22 @@ class UserProperties {
 		}
 	}
 
+	void setWindowPosition(String name, Stage state) {
+		this.properties.put('window.position.' + name + '.x', state.getX() as String)
+		this.properties.put('window.position.' + name + '.y', state.getY() as String)
+		this.properties.put('window.position.' + name + '.width', state.getWidth() as String)
+		this.properties.put('window.position.' + name + '.height', state.getHeight() as String)
+	}
+
+	void loadWindowPosition(String name, Stage state) {
+		if (this.properties.get('window.position.' + name + '.x') != null) {
+			state.setX(this.properties.get('window.position.' + name + '.x', 0) as Double)
+			state.setY(this.properties.get('window.position.' + name + '.y', 0) as Double)
+			state.setWidth(this.properties.get('window.position.' + name + '.width', 600) as Double)
+			state.setHeight(this.properties.get('window.position.' + name + '.height', 400) as Double)
+		}
+	}
+
 	Set<String> getOpenList() {
 		return new LinkedHashSet<String>(this.openList.take(MAX_SIZE_LIST))
 	}
@@ -50,7 +67,7 @@ class UserProperties {
 	}
 
 	void set(String key, String value) {
-		this.properties.setProperty(key, value)
+		this.properties.put(key, value)
 	}
 
 	void save() {

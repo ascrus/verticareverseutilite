@@ -2,10 +2,13 @@ package ru.easydata.sql.reversing.vertica.controllers
 
 import getl.utils.Config
 import getl.vertica.VerticaConnection
+import javafx.application.Platform
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.scene.Cursor
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.ProgressBar
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import org.springframework.beans.factory.annotation.Autowired
@@ -49,6 +52,12 @@ class ConnectionController implements ConnectionForm {
 	private TextField textFieldPassword
 
 	@FXML
+	private ProgressBar progressBarWaitConnect
+
+	@FXML
+	private Button butTestConnection
+
+	@FXML
 	private void initialize() {
 		this.clear()
 	}
@@ -69,7 +78,10 @@ class ConnectionController implements ConnectionForm {
 
 		switch (button.id) {
 			case 'butDriverBrowser':
-				this.textFieldDriver.setText(this.dialog.chooserFile()?.getAbsolutePath())
+				File dir = this.dialog.chooserFile()
+				if (dir != null) {
+					this.textFieldDriver.setText(dir.getAbsolutePath())
+				}
 				break
 			case 'butTestConnection':
 				this.testConnection()
@@ -78,31 +90,50 @@ class ConnectionController implements ConnectionForm {
 	}
 
 	private void testConnection() {
-		Map conn = forms.jsonConnections().connections
-		conn.remove('driverPath')
-		Config.content.connections = conn
+		this.progressBarWaitConnect.setVisible(true)
+		this.butTestConnection.setDisable(true)
+		this.butTestConnection.getScene().setCursor(Cursor.WAIT)
+
+		Map connections = (forms.jsonConnections().connections)
+		//connections.vertica.remove('driverPath')
+		Config.content.connections = connections
 		Config.setVars(forms.jsonVars().vars)
 		Config.EvalConfig()
 
-		def con = new VerticaConnection(config: 'vertica')
-
 		Alert alert = new Alert(Alert.AlertType.INFORMATION)
-		Locale locale = LocaleContextHolder.getLocale()
 
-		try {
-			con.connected = true
-			alert.setTitle(this.messageSource.getMessage('app.alert.title.information', null, locale))
-			alert.setHeaderText(this.messageSource.getMessage('app.alert.connection.ok', null, locale))
-		} catch (Exception e) {
-			alert.setAlertType(Alert.AlertType.ERROR)
-			alert.setTitle(this.messageSource.getMessage('app.alert.title.error', null, locale))
-			alert.setHeaderText(this.messageSource.getMessage('app.alert.connection.error', null, locale))
-			alert.setContentText(e.message)
-		} finally {
-			con.connected = false
-		}
+		new Thread(new Runnable() {
+			@Override
+			void run() {
 
-		alert.showAndWait()
+				Locale locale = LocaleContextHolder.getLocale()
+				def conn = new VerticaConnection(config: 'vertica')
+
+				try {
+					conn.connected = true
+					alert.setTitle(messageSource.getMessage('app.alert.title.information', null, locale))
+					alert.setHeaderText(messageSource.getMessage('app.alert.connection.ok', null, locale))
+				} catch (Exception e) {
+					alert.setAlertType(Alert.AlertType.ERROR)
+					alert.setTitle(messageSource.getMessage('app.alert.title.error', null, locale))
+					alert.setHeaderText(messageSource.getMessage('app.alert.connection.error', null, locale))
+					alert.setContentText(e.message)
+				} finally {
+					conn.connected = false
+
+					Platform.runLater(new Runnable() {
+						@Override
+						void run() {
+							progressBarWaitConnect.setVisible(false)
+							butTestConnection.setDisable(false)
+							butTestConnection.getScene().setCursor(Cursor.DEFAULT)
+
+							alert.showAndWait()
+						}
+					})
+				}
+			}
+		}).start()
 	}
 
 	@Override

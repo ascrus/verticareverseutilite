@@ -99,23 +99,17 @@ class ReversingImpl implements Reversing {
 
 	private void save() {
 		this.jsonBuilder = this.forms.toJson()
-		this.file.write(this.jsonBuilder.toPrettyString())
+		this.file.write(this.jsonBuilder.toPrettyString(), 'UTF-8')
 	}
 
 	@Override
 	void build(File directory, boolean isClear) {
-		if (!directory.exists()) {
-			directory.mkdirs()
-		} else if (directory.listFiles().size() > 0 && isClear) {
-			FileUtils.cleanDirectory(directory)
-		}
-
 		File file = File.createTempFile('rev', '.conf')
 		file.deleteOnExit()
 
-		file.write(this.forms.toJson().toPrettyString())
+		file.write(this.forms.toJson().toPrettyString(), 'UTF-8')
 
-		CommandExecute commandExecute = new CommandExecute(new VerticaCommand(file, directory))
+		CommandExecute commandExecute = new CommandExecute(new VerticaCommand(file, directory, isClear))
 		commandExecute.setEvent(this.buildController)
 		commandExecute.setLog(this.buildController)
 		commandExecute.start()
@@ -157,11 +151,12 @@ class ReversingImpl implements Reversing {
 		File sh = new File(deployDirectory, fileName + '.sh')
 		File bat = new File(deployDirectory, fileName + '.bat')
 
-		conf.write(this.forms.toJson().toPrettyString())
-		bat.write("@ECHO OFF\n" +
-				"java -cp libs\\* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"")
-		sh.write("#!/bin/sh\n" +
-				"java -cp libs/* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"")
+		conf.write(this.forms.toJson().toPrettyString(), 'UTF-8')
+		bat.write("@ECHO OFF\r\n" +
+				"chcp 65001\r\n" +
+				"java -cp libs\\* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"", 'UTF-8')
+		sh.write("#!/bin/sh\n\r" +
+				"java -cp libs/* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"", 'UTF-8')
 	}
 
 	@Override

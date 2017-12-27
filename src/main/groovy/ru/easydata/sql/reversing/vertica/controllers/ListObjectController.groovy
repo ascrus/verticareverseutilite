@@ -2,13 +2,16 @@ package ru.easydata.sql.reversing.vertica.controllers
 
 import getl.utils.Config
 import getl.vertica.ReverseEngineering
+import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.scene.Cursor
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.control.ProgressBar
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
@@ -41,6 +44,18 @@ class ListObjectController {
 
 	@FXML
 	private TableView tableViewResultSQL
+
+	@FXML
+	private ProgressBar progressBarWait
+
+	@FXML
+	private Button butRun
+
+	@FXML
+	private Button butSave
+
+	@FXML
+	private Button butCancel
 
 	private def doRun
 
@@ -162,7 +177,7 @@ class ListObjectController {
 		Button menuItem = (Button) source
 
 		switch (menuItem.id) {
-			case 'burRun':
+			case 'butRun':
 				this.run()
 				break
 			case 'butSave':
@@ -176,26 +191,61 @@ class ListObjectController {
 	}
 
 	private void run() {
-		Config.content.connections = forms.jsonConnections().connections
+		this.progressBarWait.setVisible(true)
+		this.butRun.setDisable(true)
+		this.butCancel.setDisable(true)
+		this.butSave.setDisable(true)
+		this.butRun.getScene().setCursor(Cursor.WAIT)
+
+		Map connections = (forms.jsonConnections().connections)
+		//connections.vertica.remove('driverPath')
+		Config.content.connections = connections
 		Config.content.create = forms.jsonCreate().create
 		if (forms.jsonVars().vars != null) {
 			Config.setVars(forms.jsonVars().vars)
 		}
 		Config.EvalConfig()
 
-		ReverseEngineering reverse = new ReverseEngineering()
-		try {
-			reverse.initReverse()
-			this.tableViewResultSQL.setItems(this.doRun(reverse) as ObservableList<Map>)
-			reverse.doneReverse()
-		} catch (Exception e) {
-			Locale locale = LocaleContextHolder.getLocale()
-			Alert alert = new Alert(Alert.AlertType.ERROR)
-			alert.setTitle(this.messageSource.getMessage('app.alert.title.error', null, locale))
-			alert.setHeaderText(this.messageSource.getMessage('app.alert.connection.error', null, locale))
-			alert.setContentText(e.message)
-			alert.showAndWait()
-		}
+		Locale locale = LocaleContextHolder.getLocale()
+
+		new Thread(new Runnable() {
+			@Override
+			void run() {
+				ReverseEngineering reverse = new ReverseEngineering()
+				try {
+					reverse.initReverse()
+					tableViewResultSQL.setItems(doRun(reverse) as ObservableList<Map>)
+				} catch (Exception e) {
+					Platform.runLater(new Runnable() {
+						@Override
+						void run() {
+							Alert alert = new Alert(Alert.AlertType.ERROR)
+							alert.setTitle(messageSource.getMessage('app.alert.title.error', null, locale))
+							alert.setHeaderText(messageSource.getMessage('app.alert.connection.error', null, locale))
+							alert.setContentText(e.message)
+							alert.showAndWait()
+						}
+					})
+				} finally {
+					try {
+						reverse.doneReverse()
+					} catch (Exception e) {
+						//
+					}
+
+					Platform.runLater(new Runnable() {
+						@Override
+						void run() {
+							progressBarWait.setVisible(false)
+							butRun.setDisable(false)
+							butCancel.setDisable(false)
+							butSave.setDisable(false)
+							butRun.getScene().setCursor(Cursor.DEFAULT)
+						}
+					})
+				}
+			}
+		}).start()
 	}
 
 	private void close() {

@@ -55,7 +55,10 @@ class DeployController implements DeployForm {
 				this.deploy()
 				break
 			case 'butDeployDirectoryBrowser':
-				this.textFieldDeployDirectory.setText(this.dialog.chooserDirectory()?.getAbsolutePath())
+				File dir = this.dialog.chooserDirectory()
+				if (dir != null) {
+					this.textFieldDeployDirectory.setText(dir.getAbsolutePath())
+				}
 				break
 		}
 	}
@@ -89,6 +92,7 @@ class DeployController implements DeployForm {
 
 		try {
 			this.reversing.deploy(deployDirectory, scriptDirectory)
+			this.textAreaLog.appendText(new LogModel('Deploy in - ' + deployDirectory.getAbsolutePath()).toString())
 		} catch (Exception e) {
 			this.textAreaLog.appendText(new LogModel(e.getMessage(), LogModel.TYPE.ERROR).getLog())
 		}

@@ -79,6 +79,8 @@ class BuildController implements CommandEvent, CommandLog, BuildForm {
 						// Для просмотра подходят только файлы с расширение SQL
 						if (extension == 'sql') {
 							textAreaFileView.setText(fileTree.file.text)
+						} else {
+							textAreaFileView.clear()
 						}
 					}
 				}
@@ -108,7 +110,10 @@ class BuildController implements CommandEvent, CommandLog, BuildForm {
 				this.stop()
 				break
 			case 'butScriptDirectoryBrowser':
-				this.textFieldScriptDirectory.setText(this.dialog.chooserDirectory()?.getAbsolutePath())
+				File dir = this.dialog.chooserDirectory()
+				if (dir != null) {
+					this.textFieldScriptDirectory.setText(dir.getAbsolutePath())
+				}
 				break
 		}
 	}
@@ -242,6 +247,7 @@ class BuildController implements CommandEvent, CommandLog, BuildForm {
 
 		tabFileList.setDisable(false)
 		tabMain.getTabPane().getSelectionModel().select(tabMain)
+		textAreaLog.clear()
 
 		butStart.setDisable(false)
 		butStop.setDisable(true)

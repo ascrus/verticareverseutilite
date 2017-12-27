@@ -3,7 +3,10 @@ package ru.easydata.sql.reversing.vertica.services
 import groovy.json.JsonBuilder
 import groovy.json.JsonGenerator
 import groovy.json.JsonSlurper
+import javafx.scene.control.Alert
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Component
 import ru.easydata.sql.reversing.vertica.interfaces.forms.BaseForm
 import ru.easydata.sql.reversing.vertica.interfaces.forms.BuildForm
@@ -30,6 +33,9 @@ import javax.annotation.PostConstruct
  */
 @Component
 class Forms {
+	@Autowired
+	private MessageSource messageSource
+
 	@Autowired
 	private ConnectionForm connectionForm
 
@@ -106,10 +112,18 @@ class Forms {
 		this.clear()
 
 		JsonSlurper jsonSlurper = new JsonSlurper()
-		Map object = jsonSlurper.parseText(json) as Map
-
-		this.forms.each {key, forms ->
-			forms.loadJson(object)
+		try {
+			Map object = jsonSlurper.parseText(json) as Map
+			this.forms.each {key, forms ->
+				forms.loadJson(object)
+			}
+		} catch (Exception e) {
+			Locale locale = LocaleContextHolder.getLocale()
+			Alert alert = new Alert(Alert.AlertType.ERROR)
+			alert.setTitle(messageSource.getMessage('app.alert.title.error', null, locale))
+			alert.setHeaderText(messageSource.getMessage('app.alert.forms.load-json.error', null, locale))
+			alert.setContentText(e.message)
+			alert.showAndWait()
 		}
 	}
 

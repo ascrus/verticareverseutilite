@@ -1,5 +1,6 @@
 package ru.easydata.sql.reversing.vertica
 
+import getl.utils.Logs
 import javafx.application.Application
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -69,7 +70,11 @@ class ReversingVerticaApp extends Application {
 		Dialog dialog = springContext.getBean(Dialog.class)
 		UserProperties userProperties = springContext.getBean(UserProperties.class)
 
+		userProperties.loadWindowPosition('main', primaryStage)
+
 		primaryStage.setOnCloseRequest({event ->
+
+			userProperties.setWindowPosition('main', primaryStage)
 
 			userProperties.save()
 
@@ -96,6 +101,8 @@ class ReversingVerticaApp extends Application {
 		if (splash != null && splash.isVisible()) {
 			splash.close()
 		}
+
+		Logs.printStackTraceError = false
 	}
 
 	static void main(String[] args) {

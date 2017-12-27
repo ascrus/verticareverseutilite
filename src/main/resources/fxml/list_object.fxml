@@ -23,7 +23,7 @@
             <TextArea fx:id="textAreaSQL" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="burRun" mnemonicParsing="false" onAction="#butAction" text="%app.button.run">
+                  <Button fx:id="butRun" mnemonicParsing="false" onAction="#butAction" text="%app.button.run">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -37,6 +37,11 @@
                      </HBox.margin>
                   </Button>
                   <Button fx:id="butCancel" mnemonicParsing="false" onAction="#butAction" text="%app.button.cancel" />
+                  <ProgressBar fx:id="progressBarWait" prefHeight="18.0" prefWidth="96.0" visible="false">
+                     <HBox.margin>
+                        <Insets left="10.0" top="4.0" />
+                     </HBox.margin>
+                  </ProgressBar>
                </children>
                <padding>
                   <Insets top="5.0" />

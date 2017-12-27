@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Component
@@ -110,6 +111,7 @@ class MainController {
 
 		this.userProperties.openList.each {path ->
 			MenuItem m = new MenuItem(path)
+			m.setMnemonicParsing(false)
 
 			m.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
