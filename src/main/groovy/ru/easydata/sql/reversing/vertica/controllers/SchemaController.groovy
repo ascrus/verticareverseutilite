@@ -30,6 +30,6 @@ class SchemaController extends GenerationDropFileMaskObject implements SchemaFor
 
 	@Override
 	void actionListObject() {
-		this.showListObject(ListObjectController.SECTION.SCHEMA)
+		this.showListObject(ListObjectController.SECTION.SCHEMAS)
 	}
 }

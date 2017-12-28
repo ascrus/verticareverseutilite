@@ -31,6 +31,6 @@ class SqlFunctionController extends GenerationDropFileMaskObject implements SqlF
 
 	@Override
 	void actionListObject() {
-		this.showListObject(ListObjectController.SECTION.SQL_FUNCTION)
+		this.showListObject(ListObjectController.SECTION.SQL_FUNCTIONS)
 	}
 }

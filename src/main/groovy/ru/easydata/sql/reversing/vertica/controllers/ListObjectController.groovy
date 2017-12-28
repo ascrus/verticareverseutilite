@@ -27,7 +27,7 @@ import ru.easydata.sql.reversing.vertica.services.Forms
 @Component
 class ListObjectController {
 	enum SECTION {
-		POOLS,ROLES,TABLES,VIEWS,USERS,SQL_FUNCTION,SEQUENCE,SCHEMA,GRANTS
+		POOLS,ROLES,TABLES,VIEWS,USERS,SQL_FUNCTIONS,SEQUENCES,SCHEMAS,GRANTS
 	}
 
 	@Autowired
@@ -58,6 +58,8 @@ class ListObjectController {
 	private Button butCancel
 
 	private def doRun
+	private SECTION section
+	private boolean isSave = false
 
 	private void addColumnName() {
 		TableColumn<Map, Object> name = new TableColumn<Map, Object>(
@@ -82,6 +84,8 @@ class ListObjectController {
 	}
 
 	void setSection(SECTION section) {
+		this.section = section
+		this.isSave = false
 		this.tableViewResultSQL.getItems().clear()
 		this.tableViewResultSQL.getColumns().clear()
 		Locale locale = LocaleContextHolder.getLocale()
@@ -124,7 +128,7 @@ class ListObjectController {
 					return FXCollections.observableArrayList(reverse.listUsers())
 				}
 				break
-			case SECTION.SQL_FUNCTION:
+			case SECTION.SQL_FUNCTIONS:
 				this.labelTitle.setText(this.messageSource.getMessage('fxml.menu.left.sql-function', null, locale))
 				this.addColumnSchema()
 				this.addColumnName()
@@ -132,7 +136,7 @@ class ListObjectController {
 					return FXCollections.observableArrayList(reverse.listSql_functions())
 				}
 				break
-			case SECTION.SEQUENCE:
+			case SECTION.SEQUENCES:
 				this.labelTitle.setText(this.messageSource.getMessage('fxml.menu.left.sequence', null, locale))
 				this.addColumnSchema()
 				this.addColumnName()
@@ -140,7 +144,7 @@ class ListObjectController {
 					return FXCollections.observableArrayList(reverse.listSequences())
 				}
 				break
-			case SECTION.SCHEMA:
+			case SECTION.SCHEMAS:
 				this.labelTitle.setText(this.messageSource.getMessage('fxml.menu.left.schema', null, locale))
 				this.addColumnName()
 				this.doRun = {ReverseEngineering reverse ->
@@ -167,6 +171,10 @@ class ListObjectController {
 		this.textAreaSQL.setText(sql)
 	}
 
+	boolean isSave() {
+		return this.isSave
+	}
+
 	void butAction(ActionEvent actionEvent) {
 		Object source = actionEvent.getSource()
 
@@ -181,10 +189,10 @@ class ListObjectController {
 				this.run()
 				break
 			case 'butSave':
+				this.isSave = this
 				this.close()
 				break
 			case 'butCancel':
-				this.setSQL(null)
 				this.close()
 				break
 		}
@@ -201,8 +209,10 @@ class ListObjectController {
 		//connections.vertica.remove('driverPath')
 		Config.content.connections = connections
 		Config.content.create = forms.jsonCreate().create
-		if (forms.jsonVars().vars != null) {
-			Config.setVars(forms.jsonVars().vars)
+		Map vars = forms.jsonVars().vars
+		if (vars != null) {
+			vars.filter[this.section.name().toLowerCase()] = this.textAreaSQL.getText()
+			Config.setVars(vars)
 		}
 		Config.EvalConfig()
 

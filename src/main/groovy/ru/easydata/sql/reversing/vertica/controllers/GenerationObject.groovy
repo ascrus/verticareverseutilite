@@ -84,7 +84,7 @@ abstract class GenerationObject implements ru.easydata.sql.reversing.vertica.int
 		}
 
 		stageListObject.setOnCloseRequest({e ->
-			if (this.listObjectController.getSQL() != null) {
+			if (this.listObjectController.isSave()) {
 				this.filter = this.listObjectController.getSQL()
 			}
 			this.userProperties.setWindowPosition('list-object', stageListObject)

@@ -52,6 +52,6 @@ class SequenceController extends GenerationDropFileMaskObject implements Sequenc
 
 	@Override
 	void actionListObject() {
-		this.showListObject(ListObjectController.SECTION.SEQUENCE)
+		this.showListObject(ListObjectController.SECTION.SEQUENCES)
 	}
 }
