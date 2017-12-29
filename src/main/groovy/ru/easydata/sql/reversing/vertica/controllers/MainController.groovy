@@ -116,7 +116,11 @@ class MainController {
 			m.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				void handle(ActionEvent e) {
-					reversing.openFile(new File(path))
+					if (reversing.isEdit()) {
+						alertSave() {reversing.openFile(new File(path))}
+					} else {
+						reversing.openFile(new File(path))
+					}
 				}
 			})
 
@@ -192,8 +196,9 @@ class MainController {
 	private void alertSave(Closure func) {
 		switch (this.dialog.alertSave()) {
 			case ButtonBar.ButtonData.YES:
-				this.saveFile()
-				func()
+				if (this.saveFile()) {
+					func()
+				}
 				break
 			case ButtonBar.ButtonData.NO:
 				func()
@@ -221,12 +226,18 @@ class MainController {
 		this.loadMenuOpenRecent()
 	}
 
-	private void saveFile() {
+	private boolean saveFile() {
 		try {
 			this.reversing.saveFile()
 		} catch (FileNotFoundException e) {
-			this.reversing.saveAsFile(this.dialog.showSaveDialog())
+			File file = this.dialog.showSaveDialog()
+			if (file != null) {
+				this.reversing.saveAsFile(file)
+			} else {
+				return false
+			}
 		}
+		return true
 	}
 
 	private void saveAsFile() {
