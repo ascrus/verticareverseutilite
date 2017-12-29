@@ -11,7 +11,7 @@
    <children>
 		<Label styleClass="form-title" text="%fxml.form.user.title">
          <VBox.margin>
-            <Insets bottom="20.0" left="10.0" right="10.0" />
+            <Insets bottom="20.0" left="10.0" top="10.0" />
          </VBox.margin>
       </Label>
       <GridPane>
