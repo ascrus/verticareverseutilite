@@ -154,9 +154,9 @@ class ReversingImpl implements Reversing {
 		conf.write(this.forms.toJson().toPrettyString(), 'UTF-8')
 		bat.write("@ECHO OFF\r\n" +
 				"chcp 65001\r\n" +
-				"java -cp libs\\* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"", 'UTF-8')
+				"java -cp libs\\* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\" %*", 'UTF-8')
 		sh.write("#!/bin/sh\n\r" +
-				"java -cp libs/* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\"", 'UTF-8')
+				"java -cp libs/* getl.vertica.ReverseEngineering config.filename=${conf.name} script_path=\"${scriptDirectory}\" \$@", 'UTF-8')
 	}
 
 	@Override
