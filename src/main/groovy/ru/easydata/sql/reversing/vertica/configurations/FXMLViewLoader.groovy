@@ -26,7 +26,7 @@ class FXMLViewLoader {
 	void init() {
 		this.views.clear()
 		def list = ['connection','general','grants','main','pool','deploy','build','role','schema',
-					'sequence','sql_function','table','user','view','list_object']
+					'sequence','sql_function','table','user','view','list_object','about']
 		list.each {name ->
 			this.views.put(name, this.load('/fxml/' + name + '.fxml'))
 		}

@@ -245,7 +245,7 @@ class BuildController implements CommandEvent, CommandLog, BuildForm {
 	void clear() {
 		treeViewFiles.setRoot(null)
 
-		tabFileList.setDisable(false)
+		tabFileList.setDisable(true)
 		tabMain.getTabPane().getSelectionModel().select(tabMain)
 		textAreaLog.clear()
 

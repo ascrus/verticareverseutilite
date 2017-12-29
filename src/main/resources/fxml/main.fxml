@@ -55,7 +55,6 @@
             <Menu mnemonicParsing="false" text="%fxml.menu.top.help">
                <items>
                   <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.help.about" />
-                  <MenuItem fx:id="menuItemLicense" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.help.license" />
                </items>
             </Menu>
         </menus>

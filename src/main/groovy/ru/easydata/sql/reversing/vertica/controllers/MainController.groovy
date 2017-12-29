@@ -72,6 +72,7 @@ class MainController {
 
 	private Stage stageBuild
 	private Stage stageDeploy
+	private Stage stageAbout
 
 	@FXML
 	void initialize() {
@@ -187,8 +188,7 @@ class MainController {
 				this.deploy()
 				break
 			case 'menuItemAbout':
-				break
-			case 'menuItemLicense':
+				this.about()
 				break
 		}
 	}
@@ -280,6 +280,17 @@ class MainController {
 		}
 
 		this.stageDeploy.show()
+	}
+
+	private void about() {
+		Parent root = this.fxmlViewLoader.get('about')
+		if (this.stageAbout == null) {
+			this.stageAbout = this.newStageWindowModal(root, this.messageSource.getMessage('fxml.menu.top.help.about', null, LocaleContextHolder.getLocale()))
+		} else {
+			this.stageAbout.getScene().setRoot(root)
+		}
+
+		this.stageAbout.show()
 	}
 
 	private Stage newStageWindowModal(Parent root, String title) {
