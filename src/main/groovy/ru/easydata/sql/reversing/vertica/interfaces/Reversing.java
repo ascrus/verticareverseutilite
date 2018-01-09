@@ -56,11 +56,6 @@ public interface Reversing {
 	boolean isEdit();
 
 	/**
-	 * Список доступных локалей
-	 */
-	Set<Locale> locales();
-
-	/**
 	 * Задать локаль
 	 */
 	void setLocale(Locale locale);

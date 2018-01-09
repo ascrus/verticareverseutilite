@@ -39,7 +39,15 @@
           </Menu>
           <Menu mnemonicParsing="false" text="%fxml.menu.top.settings">
                <items>
-                  <Menu fx:id="menuLocales" mnemonicParsing="false" text="%fxml.menu.top.settings.locales" />
+                  <Menu fx:id="menuLocales" mnemonicParsing="false" text="%fxml.menu.top.settings.locales">
+                     <items>
+                        <RadioMenuItem fx:id="menuItemRu" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.settings.locales.ru">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="locales" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="menuItemEn" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.settings.locales.en" toggleGroup="$locales" />
+                     </items></Menu>
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="%fxml.menu.top.configuration">

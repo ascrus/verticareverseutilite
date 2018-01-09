@@ -14,11 +14,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @CompileStatic
 class ApplicationConfiguration {
 	@Bean
-	File localesMessagesPath() {
-		return new File('locales')
-	}
-
-	@Bean
 	UserProperties userProperties() {
 		return new UserProperties()
 	}
@@ -26,7 +21,7 @@ class ApplicationConfiguration {
 	@Bean
 	MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource()
-		messageSource.setBasenames("file:locales/messages")
+		messageSource.setBasenames("classpath:locales/messages")
 		messageSource.setDefaultEncoding("UTF-8")
 		return messageSource
 	}

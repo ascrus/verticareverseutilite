@@ -43,7 +43,6 @@ class ReversingVerticaApp extends Application {
 		LocaleContextHolder.setLocale(new Locale(properties.get("locale", "en")))
 
 		FXMLViewLoader loader = springContext.getBean(FXMLViewLoader)
-		loader.init()
 
 		rootNode = loader.get('main')
 	}

@@ -12,13 +12,11 @@ import javafx.scene.control.ButtonBar
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.RadioMenuItem
-import javafx.scene.control.ToggleGroup
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Component
@@ -68,6 +66,12 @@ class MainController {
 	private Menu menuOpenRecent
 
 	@FXML
+	private RadioMenuItem menuItemEn
+
+	@FXML
+	private RadioMenuItem menuItemRu
+
+	@FXML
 	private Button general
 
 	private Stage stageBuild
@@ -76,23 +80,13 @@ class MainController {
 
 	@FXML
 	void initialize() {
-		ToggleGroup tg = new ToggleGroup()
-
-		this.reversing.locales().each {l ->
-			RadioMenuItem r = new RadioMenuItem(l.getDisplayLanguage(LocaleContextHolder.getLocale()))
-			r.setToggleGroup(tg)
-
-			if (l.getLanguage() == LocaleContextHolder.getLocale().getLanguage())
-				r.setSelected(true)
-
-			r.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				void handle(ActionEvent e) {
-					reversing.setLocale(l)
-					userProperties.set('locale', l.getLanguage())
-				}
-			})
-			this.menuLocales.getItems().add(r)
+		switch (LocaleContextHolder.getLocale().getLanguage()) {
+			case 'ru':
+				menuItemRu.setSelected(true)
+				break
+			case 'en':
+				menuItemEn.setSelected(true)
+				break
 		}
 
 		this.loadMenuOpenRecent()
@@ -189,6 +183,14 @@ class MainController {
 				break
 			case 'menuItemAbout':
 				this.about()
+				break
+			case 'menuItemRu':
+				reversing.setLocale(new Locale('ru'))
+				menuItemRu.setSelected(true)
+				break
+			case 'menuItemEn':
+				reversing.setLocale(new Locale('en'))
+				menuItemEn.setSelected(true)
 				break
 		}
 	}

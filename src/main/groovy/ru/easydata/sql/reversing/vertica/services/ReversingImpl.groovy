@@ -18,9 +18,6 @@ import javax.annotation.PostConstruct
 @Service
 class ReversingImpl implements Reversing {
 	@Autowired
-	private File localesMessagesPath
-
-	@Autowired
 	private FXMLViewLoader fxmlViewLoader
 
 	@Autowired
@@ -35,25 +32,11 @@ class ReversingImpl implements Reversing {
 	@Autowired
 	private UserProperties userProperties
 
-	private Set<Locale> listLocale = new HashSet<>()
 	private File file
 	private JsonBuilder jsonBuilder
 	static Stage primaryStage
 
-	@PostConstruct
-	private void init() {
-		this.localesMessagesPath.eachFile() {file ->
-			Properties p = new Properties()
-			p.load(new FileInputStream(file))
-			String locale = p.get('locale')
-			if (!locale.isEmpty()) {
-				this.listLocale.add(new Locale(locale))
-			}
-		}
-	}
-
 	@Override
-	@Deprecated
 	void newFile() {
 		this.file = null
 		this.setTitle(null)
@@ -169,13 +152,9 @@ class ReversingImpl implements Reversing {
 	}
 
 	@Override
-	Set<Locale> locales() {
-		return this.listLocale
-	}
-
-	@Override
 	void setLocale(Locale locale) {
 		LocaleContextHolder.setLocale(locale)
+		userProperties.set('locale', locale.getLanguage())
 		this.fxmlViewLoader.init()
 		primaryStage.hide()
 		primaryStage.getScene().setRoot(fxmlViewLoader.get('main'))
