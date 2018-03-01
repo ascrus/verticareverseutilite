@@ -10,4 +10,4 @@ if exist "%IZPACK_JAVA%\bin\javaw.exe" (
 
 echo Using java: %LOCAL_JAVA%
 
-start "SQLReversingForVertica" /B "%LOCAL_JAVA%" -splash:splash.gif -jar SQLReversingForVertica-0.0.6-SNAPSHOT.jar
+start "SQLReversingForVertica" /B "%LOCAL_JAVA%" -splash:splash.gif -jar SQLReversingForVertica-1.0.0.jar

@@ -10,4 +10,4 @@ else
 	JAVACMD=java
 fi
 
-$JAVACMD -splash:splash.gif -jar SQLReversingForVertica-0.0.6-SNAPSHOT.jar
+$JAVACMD -splash:splash.gif -jar SQLReversingForVertica-1.0.0.jar
