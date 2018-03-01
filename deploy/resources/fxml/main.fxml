@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="870.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.easydata.sql.reversing.vertica.controllers.MainController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="%fxml.menu.top.file">
+            <items>
+              <MenuItem fx:id="menuItemNew" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.file.new">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.file.open">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <Menu fx:id="menuOpenRecent" mnemonicParsing="false" text="%fxml.menu.top.file.open-recent" />
+                  <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.file.save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="menuItemSaveAs" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.file.save-as" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.file.close">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%fxml.menu.top.settings">
+               <items>
+                  <Menu fx:id="menuLocales" mnemonicParsing="false" text="%fxml.menu.top.settings.locales">
+                     <items>
+                        <RadioMenuItem fx:id="menuItemRu" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.settings.locales.ru">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="locales" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="menuItemEn" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.settings.locales.en" toggleGroup="$locales" />
+                     </items></Menu>
+               </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%fxml.menu.top.configuration">
+            <items>
+                  <MenuItem fx:id="menuItemBuild" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.configuration.build">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F10" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="menuItemDeploy" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.configuration.deploy" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="%fxml.menu.top.help">
+               <items>
+                  <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuTopAction" text="%fxml.menu.top.help.about" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox fx:id="vBoxMenuLeft" prefWidth="250.0" styleClass="left-menu" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="general" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.general" />
+            <Button fx:id="connection" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.connection" />
+            <Button fx:id="pool" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.pool" />
+            <Button fx:id="role" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.role" />
+            <Button fx:id="user" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.user" />
+            <Button fx:id="schema" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.schema" />
+            <Button fx:id="sequence" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.sequence" />
+            <Button fx:id="table" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.table" />
+            <Button fx:id="view" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.view" />
+            <Button fx:id="sql_function" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.sql-function" />
+            <Button fx:id="grants" mnemonicParsing="false" onAction="#menuLeftAction" styleClass="left-menu-button" text="%fxml.menu.left.grants" />
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <GridPane fx:id="paneContext" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </center>
+</BorderPane>

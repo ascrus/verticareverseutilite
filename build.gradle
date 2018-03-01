@@ -21,20 +21,23 @@ group = 'ru.easydata.sql.reversing'
 version = '0.0.6-SNAPSHOT'
 sourceCompatibility = 1.8
 buildDir = '.build'
+archivesBaseName = 'SQLReversingForVertica'
 
 repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/snapshot" }
 	maven { url "https://repo.spring.io/milestone" }
+	maven { url 'http://repo.novus.com/releases/' }
 }
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
 
 	compile('commons-io:commons-io:2.5')
-	compile('org.codehaus.groovy:groovy-all')
+	//compile('org.codehaus.groovy:groovy-all')
 
-	compile fileTree(dir:  'bin/libs/', includes: ['getl-*.jar', 'h2-*.jar'])
+	//compile fileTree(dir:  'bin/libs/', includes: ['getl-*.jar', 'h2-*.jar'])
+	compile 'net.sourceforge.getl:getl:2.0.2'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

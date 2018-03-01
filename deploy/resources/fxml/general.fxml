@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.easydata.sql.reversing.vertica.controllers.GeneralController">
+   <children>
+      <AnchorPane>
+         <children>
+            <Label layoutX="10.0" styleClass="form-title" text="%fxml.form.general.title" AnchorPane.leftAnchor="10.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" top="10.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints minWidth="200.0" />
+          <ColumnConstraints hgrow="SOMETIMES" prefWidth="400.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="%fxml.form.general.log-file">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin></Label>
+            <TextField fx:id="textFieldLogFile" prefHeight="25.0" prefWidth="360.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></TextField>
+            <Label alignment="TOP_LEFT" text="%fxml.form.general.log-file.node" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="9.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+      <Label text="%fxml.form.general.params">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" />
+         </VBox.margin>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+       <TableView fx:id="tableVars" editable="true" prefHeight="244.0" prefWidth="606.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="59.0">
+           <columns>
+               <TableColumn fx:id="columnVarsName" prefWidth="75.0" text="%fxml.form.general.params.name" />
+               <TableColumn fx:id="columnVarsValue" prefWidth="75.0" text="%fxml.form.general.params.value" />
+           </columns>
+           <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+           </columnResizePolicy>
+           <contextMenu>
+               <ContextMenu>
+                   <items>
+                       <MenuItem fx:id="menuItemAdd" mnemonicParsing="false" onAction="#contextMenuVarsAction" text="Добавить" />
+                       <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#contextMenuVarsAction" text="Удалить" />
+                   </items>
+               </ContextMenu>
+           </contextMenu>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" />
+         </VBox.margin>
+       </TableView>
+   </children>
+</VBox>
