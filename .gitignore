@@ -4,6 +4,7 @@
 ### Gradle template
 .gradle
 build/
+.build/
 
 ### Eclipse template
 bin/
