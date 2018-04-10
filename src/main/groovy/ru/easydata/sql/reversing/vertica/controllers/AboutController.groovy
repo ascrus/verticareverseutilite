@@ -23,7 +23,7 @@ class AboutController {
 
 	@FXML
 	void initialize() {
-		this.labelVersion.setText('1.0.0')
+		this.labelVersion.setText('1.0.1')
 
 		this.labelWeb.setOnMouseClicked({evt ->
 			Desktop.getDesktop().browse(new URL(this.labelWeb.getText()).toURI())

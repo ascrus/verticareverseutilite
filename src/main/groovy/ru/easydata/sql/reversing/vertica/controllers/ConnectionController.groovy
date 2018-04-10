@@ -98,7 +98,10 @@ class ConnectionController implements ConnectionForm {
 			Map connections = (forms.jsonConnections().connections)
 			//connections.vertica.remove('driverPath')
 			Config.content.connections = connections
-			Config.setVars(forms.jsonVars().vars)
+			def vars = forms.jsonVars().vars
+			if (vars) {
+				Config.setVars(forms.jsonVars().vars)
+			}
 			Config.EvalConfig()
 		} catch (ignore) {
 
