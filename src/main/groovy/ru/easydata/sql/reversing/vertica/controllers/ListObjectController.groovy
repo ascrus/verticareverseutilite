@@ -205,16 +205,20 @@ class ListObjectController {
 		this.butSave.setDisable(true)
 		this.butRun.getScene().setCursor(Cursor.WAIT)
 
-		Map connections = (forms.jsonConnections().connections)
-		//connections.vertica.remove('driverPath')
-		Config.content.connections = connections
-		Config.content.create = forms.jsonCreate().create
-		Map vars = forms.jsonVars().vars
-		if (vars != null) {
-			vars.filter[this.section.name().toLowerCase()] = this.textAreaSQL.getText()
-			Config.setVars(vars)
+		try {
+			Map connections = (forms.jsonConnections().connections)
+			//connections.vertica.remove('driverPath')
+			Config.content.connections = connections
+			Config.content.create = forms.jsonCreate().create
+			Map vars = forms.jsonVars().vars
+			if (vars != null) {
+				vars.filter[this.section.name().toLowerCase()] = this.textAreaSQL.getText()
+				Config.setVars(vars)
+			}
+			Config.EvalConfig()
+		} catch (ignore) {
+
 		}
-		Config.EvalConfig()
 
 		Locale locale = LocaleContextHolder.getLocale()
 

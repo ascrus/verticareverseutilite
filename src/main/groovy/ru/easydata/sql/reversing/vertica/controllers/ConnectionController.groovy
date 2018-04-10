@@ -94,11 +94,15 @@ class ConnectionController implements ConnectionForm {
 		this.butTestConnection.setDisable(true)
 		this.butTestConnection.getScene().setCursor(Cursor.WAIT)
 
-		Map connections = (forms.jsonConnections().connections)
-		//connections.vertica.remove('driverPath')
-		Config.content.connections = connections
-		Config.setVars(forms.jsonVars().vars)
-		Config.EvalConfig()
+		try {
+			Map connections = (forms.jsonConnections().connections)
+			//connections.vertica.remove('driverPath')
+			Config.content.connections = connections
+			Config.setVars(forms.jsonVars().vars)
+			Config.EvalConfig()
+		} catch (ignore) {
+
+		}
 
 		Alert alert = new Alert(Alert.AlertType.INFORMATION)
 
